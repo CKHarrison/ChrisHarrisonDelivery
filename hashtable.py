@@ -49,9 +49,3 @@ class HashTable:
         for item in self.table:
             if item is not None:
                 print(str(item))
-
-
-ht = HashTable()
-ht.add(111223, 'Wyoming')
-ht.add(222312, 'Montana')
-ht.print()
