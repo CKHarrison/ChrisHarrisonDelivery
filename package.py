@@ -59,19 +59,18 @@ with open('package_csv.csv', newline='') as csv_file:
     next(package_data)
     # Create a new package based on each row of the package table
     for row in package_data:
-        print(row, len(row))
         id, address, city, state, zip, delivery_time, weight = row[:7]
         if len(row) == 9:
             notes = row[7]
             new_package = Package(id, address, city, state, zip, delivery_time, weight, notes)
-            #package_hashtable.add(new_package.get_package_id(), new_package)
+            package_hashtable.add(new_package.get_package_id(), new_package)
         else:
             new_package = Package(id, address, city, state, zip, delivery_time, weight)
-            #package_hashtable.add(new_package.get_package_id(), new_package)
-        break
+            package_hashtable.add(new_package.get_package_id(), new_package)
 
 
-
+result = package_hashtable.print()
+print(result)
 # Distance table test
 # with open('distance_table.csv', newline='') as distance_csv:
 #     distance_table = csv.reader(distance_csv, delimiter=',')

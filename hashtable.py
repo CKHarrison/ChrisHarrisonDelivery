@@ -26,7 +26,7 @@ class HashTable:
         # If the value is empty at the key we want add it by creating a list holding the value and return True
         # Else add it to the list of values
         if self.table[key_hash] is None:
-            self.table[key_hash] = list(key_value)
+            self.table[key_hash] = list([key_value])
             return True
         else:
             for item in self.table[key_hash]:
@@ -48,4 +48,4 @@ class HashTable:
     def print(self):
         for item in self.table:
             if item is not None:
-                print(str(item))
+                print(str(item[0][0]),':', item[0][1])
