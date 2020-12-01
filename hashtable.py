@@ -48,4 +48,4 @@ class HashTable:
     def print(self):
         for item in self.table:
             if item is not None:
-                print(str(item[0][0]),':', item[0][1])
+                print(str(item[0][0]), ':', item[0][1])

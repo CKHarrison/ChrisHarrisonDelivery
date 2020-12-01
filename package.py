@@ -50,27 +50,32 @@ class Package:
             self.special_notes)
 
 
-package_hashtable = HashTable()
+def create_package_table():
+    """
+    This function creates the hashtable of packages and returns the hashtable.
+    The purpose of this function is to compartmentalize the creation of the table,
+    allowing for use in the main program
+    without needing to delve behind the scenes.
+    """
+    # package_hashtable will store all of the packages
+    package_hashtable = HashTable()
+    # Each row is of length 8 if no special instructions, 9 if there are instructions
+    with open('package_csv.csv', newline='') as csv_file:
+        package_data = csv.reader(csv_file, delimiter=',')
+        # Skip the header row and only read in package data
+        next(package_data)
+        # Create a new package based on each row of the package table
+        for row in package_data:
+            id, address, city, state, zip, delivery_time, weight = row[:7]
+            if len(row) == 9:
+                notes = row[7]
+                new_package = Package(id, address, city, state, zip, delivery_time, weight, notes)
+                package_hashtable.add(new_package.get_package_id(), new_package)
+            else:
+                new_package = Package(id, address, city, state, zip, delivery_time, weight)
+                package_hashtable.add(new_package.get_package_id(), new_package)
+    return package_hashtable
 
-# Each row is of length 8 if no special instructions, 9 if there are instructions
-with open('package_csv.csv', newline='') as csv_file:
-    package_data = csv.reader(csv_file, delimiter=',')
-    # Skip the header row and only read in package data
-    next(package_data)
-    # Create a new package based on each row of the package table
-    for row in package_data:
-        id, address, city, state, zip, delivery_time, weight = row[:7]
-        if len(row) == 9:
-            notes = row[7]
-            new_package = Package(id, address, city, state, zip, delivery_time, weight, notes)
-            package_hashtable.add(new_package.get_package_id(), new_package)
-        else:
-            new_package = Package(id, address, city, state, zip, delivery_time, weight)
-            package_hashtable.add(new_package.get_package_id(), new_package)
-
-
-result = package_hashtable.print()
-print(result)
 # Distance table test
 # with open('distance_table.csv', newline='') as distance_csv:
 #     distance_table = csv.reader(distance_csv, delimiter=',')
