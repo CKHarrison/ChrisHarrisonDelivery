@@ -32,6 +32,13 @@ class Package:
         address_list = [self.address, self.city, self.state, self.zipcode]
         return address_list
 
+    # Set new address for package, needed if there is an incorrect address
+    def set_address(self, address, city,  state, zipcode):
+        self.address = address
+        self.city = city
+        self.state = state
+        self.zipcode = zipcode
+
     # Get delivery_time
     def get_delivery_time(self):
         return self.delivery_time
@@ -77,12 +84,12 @@ def create_package_table():
         next(package_data)
         # Create a new package based on each row of the package table will add special notes if available
         for row in package_data:
-            id, address, city, state, zip, delivery_time, weight = row[:7]
+            package_id, address, city, state, zipcode, delivery_time, weight = row[:7]
             if len(row) == 9:
                 notes = row[7]
-                new_package = Package(id, address, city, state, zip, delivery_time, weight, notes)
+                new_package = Package(package_id, address, city, state, zipcode, delivery_time, weight, notes)
                 package_hashtable.add(new_package.get_package_id(), new_package)
             else:
-                new_package = Package(id, address, city, state, zip, delivery_time, weight)
+                new_package = Package(package_id, address, city, state, zipcode, delivery_time, weight)
                 package_hashtable.add(new_package.get_package_id(), new_package)
     return package_hashtable
