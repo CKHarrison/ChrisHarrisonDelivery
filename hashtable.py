@@ -45,6 +45,7 @@ class HashTable:
                     return item[1]
         return None
 
+    # Print out id and package contents
     def print(self):
         for item in self.table:
             if item is not None:

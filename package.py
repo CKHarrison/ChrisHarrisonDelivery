@@ -8,7 +8,8 @@ class Package:
      delivery time and any special notes which default to an empty string if there are none
     """
 
-    def __init__(self, package_id, address, city, state, zipcode, delivery_time, weight, special_notes=None):
+    def __init__(self, package_id, address, city, state, zipcode, delivery_time,
+                 weight, special_notes=None, delivery_status="en route"):
         # Make sure package id is an integer
         self.package_id = int(package_id)
         self.address = address
@@ -19,6 +20,8 @@ class Package:
         # casts weight into an integer
         self.weight = int(weight)
         self.special_notes = special_notes
+        # delivery status for package defaults to en route only changes if delivered
+        self.delivery_status = delivery_status
 
     # Get package id
     def get_package_id(self):
@@ -43,11 +46,19 @@ class Package:
             return self.special_notes
         return None
 
-    # Override method to return a string version of the package
+    # Get delivery status of package
+    def get_status(self):
+        return self.delivery_status
+
+    # Set delivery status -- Changes if package is delivered
+    def set_delivered(self):
+        self.delivery_status = 'delivered'
+
+    # Override method to return a string version of the package so the contents can be displayed nicely
     def __str__(self):
-        return "ID: {}, address: {} {}, {}, {}, to be delivered at: {}. Weight: {}, Special notes: {}".format(
+        return "ID: {}, address: {} {}, {}, {}, to be delivered at: {}. Weight: {}, special notes: {}, status: {}".format(
             self.package_id, self.address, self.city, self.state, self.zipcode, self.delivery_time, self.weight,
-            self.special_notes)
+            self.special_notes, self.delivery_status)
 
 
 def create_package_table():
@@ -64,7 +75,7 @@ def create_package_table():
         package_data = csv.reader(csv_file, delimiter=',')
         # Skip the header row and only read in package data
         next(package_data)
-        # Create a new package based on each row of the package table
+        # Create a new package based on each row of the package table will add special notes if available
         for row in package_data:
             id, address, city, state, zip, delivery_time, weight = row[:7]
             if len(row) == 9:
@@ -75,9 +86,3 @@ def create_package_table():
                 new_package = Package(id, address, city, state, zip, delivery_time, weight)
                 package_hashtable.add(new_package.get_package_id(), new_package)
     return package_hashtable
-
-# Distance table test
-# with open('distance_table.csv', newline='') as distance_csv:
-#     distance_table = csv.reader(distance_csv, delimiter=',')
-#     for row in distance_table:
-#         print(row)
