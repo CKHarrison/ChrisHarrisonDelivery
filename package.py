@@ -93,3 +93,16 @@ def create_package_table():
                 new_package = Package(package_id, address, city, state, zipcode, delivery_time, weight)
                 package_hashtable.add(new_package.get_package_id(), new_package)
     return package_hashtable
+
+
+# package lookup function which takes a package id and returns the package address
+def lookup(package_id):
+    try:
+        package_hash = create_package_table()
+        package = package_hash.get(package_id)
+        package_address = package.get_address()[0] + f'({package.get_address()[-1]})'
+        if package_address:
+            return package_address
+    except:
+        # if address is not found return None
+        return None
