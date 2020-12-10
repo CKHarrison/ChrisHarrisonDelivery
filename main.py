@@ -9,9 +9,9 @@ with open('distance_table.csv', encoding='utf-8-sig', newline='') as csv_file:
     for row in distance_table_file:
 
         distance_table.append(row[:-1])
-
+package_table = create_package_table()
 
 if __name__ == '__main__':
-    package_hash = create_package_table()
-    print(package_hash.print())
-    print(distance_table)
+    print('hello world')
+    for row in distance_table:
+        print(row)
