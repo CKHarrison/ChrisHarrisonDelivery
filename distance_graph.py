@@ -1,3 +1,7 @@
+import csv
+from package import create_package_table
+
+
 class Vertex:
     # id is the the identifier of the vertex, in this case an address
     # connected_to list is a dictionary that shows all the vertices a particular vertex is connected with
@@ -11,7 +15,7 @@ class Vertex:
 
     # returning a string format of the vertex
     def __str__(self):
-        return str(self.id) + 'is connected with ' + str([v.id for v in self.connected_with])
+        return str(self.id) + ' is connected with ' + str([v.id for v in self.connected_with])
 
     # returning the neighbors that this vertex is connected with
     def get_neighbors(self):
@@ -24,7 +28,6 @@ class Vertex:
         return self.connected_with[neighbor]
 
 
-#
 class Graph:
     """Graph class which implements the vertex class, allows the creation of a full undirected weighted graph"""
     def __init__(self):
@@ -62,4 +65,54 @@ class Graph:
 
     # return all the vertices in the graph by showing the keys of vertex_list
     def get_vertices(self):
-        return self.vertex_list.keys()
+        return list(self.vertex_list.keys())
+
+
+distance_graph = Graph()
+distance_table_addresses = []
+distance_table_mileage = []
+
+with open('distance_table.csv', encoding='utf-8-sig', newline='') as csv_file:
+    distance_table_file = csv.reader(csv_file, delimiter=',')
+    for row in distance_table_file:
+        distance_table_addresses.append(row[: 2])
+        distance_table_mileage.append(row[2:-1])
+
+for index, row in enumerate(distance_table_mileage):
+    # this gets the address from the corresponding cell in the address table and create new vertex
+    from_vertex_address = distance_table_addresses[index][1]
+    # add vertex
+    distance_graph.add_vertex(from_vertex_address)
+    # create edges for that vertex
+    if len(row) > 1:
+        for i in row[:-1]:
+            weight = float(i)
+            row_index = row.index(i)
+            to_address = distance_table_addresses[row_index][1]
+            distance_graph.add_edge(from_vertex_address, to_address, weight)
+
+
+# lookup function which takes the id from a package and finds it's address
+def lookup(package_id):
+    package_hash = create_package_table()
+    package = package_hash.get(package_id)
+    package_address = package.get_address()[0] + f'({package.get_address()[-1]})'
+    if package_address:
+        return package_address
+    # if address is not found return None
+    return None
+
+
+package_id_list = list(range(1, 17))
+print(package_id_list)
+
+
+# Create generalized graph function which takes  a list of package ids, gets the addresses, and creates a graph
+# from the addresses
+def create_graph(id_list):
+    new_graph = Graph()
+    return new_graph
+
+# print(distance_table_mileage)
+# this works do not alter for now
+print(distance_graph.get_vertices())
