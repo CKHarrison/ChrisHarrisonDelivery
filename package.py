@@ -9,7 +9,7 @@ class Package:
     """
 
     def __init__(self, package_id, address, city, state, zipcode, delivery_time,
-                 weight, special_notes=None, delivery_status="en route"):
+                 weight, special_notes=None, delivery_status="at hub"):
         # Make sure package id is an integer
         self.package_id = int(package_id)
         self.address = address
@@ -60,6 +60,14 @@ class Package:
     # Set delivery status -- Changes if package is delivered
     def set_delivered(self):
         self.delivery_status = 'delivered'
+
+    # Sets package to en route status
+    def set_en_route(self):
+        self.delivery_status = 'en route'
+
+    # Sets package to 'at hub' status
+    def set_at_hub(self):
+        self.delivery_status = 'at hub'
 
     # Override method to return a string version of the package so the contents can be displayed nicely
     def __str__(self):
