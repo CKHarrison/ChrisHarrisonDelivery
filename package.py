@@ -104,9 +104,10 @@ def create_package_table():
 
 
 # package lookup function which takes a package id and returns the package address
+package_hash = create_package_table()
+
 def lookup(package_id):
     try:
-        package_hash = create_package_table()
         package = package_hash.get(package_id)
         package_address = package.get_address()[0] + f'({package.get_address()[-1]})'
         if package_address:
