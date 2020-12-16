@@ -128,25 +128,28 @@ def find_shortest_distance_truck(id_list, truck_address):
                 package_address_index = distance_table.index(row)
                 # since the matrix is only half filled in must check to see which address comes after the other
                 if package_address_index > truck_address_index:
-                    print('Distance is ', distance_table[package_address_index][truck_address_index + 1])
+                    # print('Distance is ', distance_table[package_address_index][truck_address_index + 1])
                     if float(distance_table[package_address_index][truck_address_index + 1]) < shortest_distance:
                         shortest_distance = float(distance_table[package_address_index][truck_address_index + 1])
-                        print('printing shortest distance: ', shortest_distance)
+                        # print('printing shortest distance: ', shortest_distance)
                         new_truck_address = distance_table[package_address_index][0]
                 else:
                     if float(distance_table[truck_address_index][package_address_index + 1]) < shortest_distance:
                         shortest_distance = float(distance_table[truck_address_index][package_address_index + 1])
-                        print('printing shortest distance: ', shortest_distance)
-                        new_truck_address = distance_table[truck_address_index][0]
+                        # print('printing shortest distance: ', shortest_distance)
+                        new_truck_address = distance_table[package_address_index][0]
     # return a tuple with the shortest distance and the new address the truck will be at
     return shortest_distance, new_truck_address
 
 
-# package_id_list = list(range(1, 17))
-# print('testing shortest route')
-# find_shortest_route(package_id_list, 1)
+def return_to_hub(truck_address):
+    """This function returns the mileage when the truck goes back from it's current location to the hub"""
+    for row in distance_table:
+        if truck_address in row:
+            truck_address_index = distance_table.index(row)
 
-# truck_one_list = [14, 15, 16, 34, 26, 22, 24, 19, 20, 21, 1, 7, 29, 2, 33]
-# print(find_shortest_distance_truck(truck_one_list, 'HUB'))
-# truck_one_list = [15, 16, 34, 26, 22, 24, 19, 20, 21, 1, 7, 29, 2, 33]
-# print(find_shortest_distance_truck(truck_one_list, '4300 S 1300 E(84117)'))
+    distance_to_hub = distance_table[truck_address_index][1]
+    return distance_to_hub, distance_table[0][0]
+
+
+

@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from package import Package, create_package_table
 from distance_matrix import find_shortest_distance_truck
 
+global package_hash
 package_hash = create_package_table()
 
 
@@ -36,11 +37,13 @@ class Truck:
         for package_id in packages:
             package = package_hash.get(package_id)
             package_address = package.get_address()[0] + f'({package.get_address()[-1]})'
-            print(package_address)
             if package_address == self.truck_address:
                 package.set_delivered(self.clock)
                 self.delivered_packages_list.append(package_id)
-                self.early_packages.remove(package_id)
+                if package_id in self.early_packages:
+                    self.early_packages.remove(package_id)
+                else:
+                    self.eod_packages.remove(package_id)
 
 
     def _add_time(self, seconds):
@@ -70,6 +73,7 @@ class Truck:
     def move(self, distance, address):
         self.calculate_time(distance)
         self._update_address(address)
+        self.total_mileage += distance
 
     # load truck with packages
     def load(self, list_of_packages):
@@ -100,4 +104,6 @@ class Truck:
     def get_delivered_packages_list(self):
         return self.delivered_packages_list
 
+    def get_mileage(self):
+        return self.total_mileage
 
