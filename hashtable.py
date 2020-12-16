@@ -9,7 +9,7 @@ class HashTable:
 
     # Sets up the initial size of the hashTable and sets it to a list with None which represents empty buckets
     def __init__(self):
-        self.size = 40
+        self.size = 41
         self.table = [None] * self.size
 
     # This is the hashing function which takes the id of the package and determines where to store the package

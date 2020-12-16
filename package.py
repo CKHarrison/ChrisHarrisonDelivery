@@ -8,7 +8,7 @@ class Package:
      delivery time and any special notes which default to an empty string if there are none
     """
 
-    def __init__(self, package_id, address, city, state, zipcode, delivery_time,
+    def __init__(self, package_id, address, city, state, zipcode, delivery_deadline,
                  weight, special_notes=None, delivery_status="at hub"):
         # Make sure package id is an integer
         self.package_id = int(package_id)
@@ -16,12 +16,14 @@ class Package:
         self.city = city
         self.state = state
         self.zipcode = zipcode
-        self.delivery_time = delivery_time
+        self.delivery_deadline = delivery_deadline
         # casts weight into an integer
         self.weight = int(weight)
         self.special_notes = special_notes
         # delivery status for package defaults to en route only changes if delivered
         self.delivery_status = delivery_status
+        # time of delivery
+        self.time_delivered = None
 
     # Get package id
     def get_package_id(self):
@@ -33,15 +35,15 @@ class Package:
         return address_list
 
     # Set new address for package, needed if there is an incorrect address
-    def set_address(self, address, city,  state, zipcode):
+    def set_address(self, address, city, state, zipcode):
         self.address = address
         self.city = city
         self.state = state
         self.zipcode = zipcode
 
-    # Get delivery_time
-    def get_delivery_time(self):
-        return self.delivery_time
+    # Get delivery deadline
+    def get_delivery_deadline(self):
+        return self.delivery_deadline
 
     # Get weight
     def get_weight(self):
@@ -58,8 +60,9 @@ class Package:
         return self.delivery_status
 
     # Set delivery status -- Changes if package is delivered
-    def set_delivered(self):
-        self.delivery_status = 'delivered'
+    def set_delivered(self, time):
+        self.time_delivered = time
+        self.delivery_status = f'delivered at {self.time_delivered}'
 
     # Sets package to en route status
     def set_en_route(self):
@@ -72,7 +75,7 @@ class Package:
     # Override method to return a string version of the package so the contents can be displayed nicely
     def __str__(self):
         return "ID: {}, address: {} {}, {}, {}, to be delivered at: {}. Weight: {}, special notes: {}, status: {}".format(
-            self.package_id, self.address, self.city, self.state, self.zipcode, self.delivery_time, self.weight,
+            self.package_id, self.address, self.city, self.state, self.zipcode, self.delivery_deadline, self.weight,
             self.special_notes, self.delivery_status)
 
 
@@ -92,19 +95,20 @@ def create_package_table():
         next(package_data)
         # Create a new package based on each row of the package table will add special notes if available
         for row in package_data:
-            package_id, address, city, state, zipcode, delivery_time, weight = row[:7]
+            package_id, address, city, state, zipcode, delivery_deadline, weight = row[:7]
             if len(row) == 9:
                 notes = row[7]
-                new_package = Package(package_id, address, city, state, zipcode, delivery_time, weight, notes)
+                new_package = Package(package_id, address, city, state, zipcode, delivery_deadline, weight, notes)
                 package_hashtable.add(new_package.get_package_id(), new_package)
             else:
-                new_package = Package(package_id, address, city, state, zipcode, delivery_time, weight)
+                new_package = Package(package_id, address, city, state, zipcode, delivery_deadline, weight)
                 package_hashtable.add(new_package.get_package_id(), new_package)
     return package_hashtable
 
 
 # package lookup function which takes a package id and returns the package address
 package_hash = create_package_table()
+
 
 def lookup(package_id):
     try:
