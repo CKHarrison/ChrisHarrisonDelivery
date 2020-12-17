@@ -3,7 +3,6 @@ from distance_matrix import find_shortest_distance_truck, package_hash, return_t
 import truck
 
 
-
 def start_route(car):
     # if truck has early packages deliver them first
     if len(car.get_early_packages()):
@@ -36,6 +35,14 @@ def start_route(car):
         print('packages to be delivered:', car.get_eod_packages())
         distance_to_hub, current_location = return_to_hub(car.get_address())
         car.move(distance_to_hub, current_location)
+
+# get packages delivered by a user specified time
+def get_delivered_packages():
+    print('Please enter when you want to see packages delivered.')
+    hour = int(input('Please enter hour, in form of 24 hour clock. i.e 9am is 09, 10pm is 22: '))
+    minutes = int(input('Please enter minutes from 0 - 60:'))
+    package_hash.print_delivered_by(hour, minutes)
+
 if __name__ == '__main__':
     truck_one = truck.Truck()
     truck_two = truck.Truck([9,5])
@@ -48,3 +55,6 @@ if __name__ == '__main__':
     # for p_id in truck_one_first_load:
     #     package = package_hash.get(p_id)
     #     print(package.get_status())
+    # package_hash.print()
+    # package_hash.print_delivered_by(9, 30)
+    get_delivered_packages()

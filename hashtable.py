@@ -1,3 +1,4 @@
+from datetime import datetime
 """
 Hashtable module to store the package data and distance data. Comes with the ability
 to insert, search, and remove items from the hashtable.
@@ -51,13 +52,17 @@ class HashTable:
             if item is not None:
                 print(str(item[0][0]), ':', item[0][1])
 
-    def __next__(self):
-        x = 0
-        if x > len(self.table):
-            raise StopIteration
-        else:
-            x += 1
-            return self.table[x][1]
+    # print delivered packages
+    def print_delivered(self):
+        for item in self.table:
+            if item is not None:
+                if item[0][1].get_time_delivered() is not None:
+                    print(f'package {item[0][1].get_package_id()} delivered at: {item[0][1].get_time_delivered()}')
 
-    def __iter__(self):
-        return self
+    # add print delivered by certain time?
+    def print_delivered_by(self, hour, minutes):
+        time_entered = datetime(datetime.now().year, datetime.now().month, datetime.now().day, hour=hour, minute= minutes)
+        for item in self.table:
+            if item is not None:
+                if item[0][1].get_time_delivered() is not None and item[0][1].get_time_delivered() < time_entered:
+                    print(f'package {item[0][1].get_package_id()} delivered at: {item[0][1].get_time_delivered()}')
