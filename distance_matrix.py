@@ -149,7 +149,7 @@ def return_to_hub(truck_address):
             truck_address_index = distance_table.index(row)
 
     distance_to_hub = distance_table[truck_address_index][1]
-    return distance_to_hub, distance_table[0][0]
+    return float(distance_to_hub), distance_table[0][0]
 
 
 

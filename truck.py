@@ -36,9 +36,11 @@ class Truck:
     def deliver_package(self, packages):
         for package_id in packages:
             package = package_hash.get(package_id)
+            # have to format package address because
             package_address = package.get_address()[0] + f'({package.get_address()[-1]})'
             if package_address == self.truck_address:
                 package.set_delivered(self.clock)
+                print(f'package {package.get_package_id()} delivered at: {package.get_status()}')
                 self.delivered_packages_list.append(package_id)
                 if package_id in self.early_packages:
                     self.early_packages.remove(package_id)
@@ -83,17 +85,6 @@ class Truck:
                 self.early_packages.append(package_id)
             else:
                 self.eod_packages.append(package_id)
-
-    # # starts the truck's route and delivers packages
-    # def start_route(self):
-    #     # if there are early packages then deliver them first
-    #     if self.early_packages:
-    #         find_shortest_distance_truck(self.early_packages, self.truck_address)
-    #         # find the closest address
-    #         # move truck
-    #         # deliver package
-    #         # remove package(s) from early list
-    #         # continue until there are no packages left
 
     def get_early_packages(self):
         return self.early_packages

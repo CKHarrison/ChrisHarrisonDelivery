@@ -74,9 +74,10 @@ class Package:
 
     # Override method to return a string version of the package so the contents can be displayed nicely
     def __str__(self):
-        return "ID: {}, address: {} {}, {}, {}, to be delivered at: {}. Weight: {}, special notes: {}, status: {}".format(
+        return "ID: {}, address: {} {}, {}, {}, to be delivered at: {}. Weight: {}, special notes: {}, status: {}" \
+               "time delivered: {}".format(
             self.package_id, self.address, self.city, self.state, self.zipcode, self.delivery_deadline, self.weight,
-            self.special_notes, self.delivery_status)
+            self.special_notes, self.delivery_status, self.time_delivered)
 
 
 def create_package_table():

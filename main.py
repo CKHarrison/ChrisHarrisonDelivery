@@ -1,5 +1,5 @@
 from package import create_package_table
-from distance_matrix import find_shortest_distance_truck
+from distance_matrix import find_shortest_distance_truck, package_hash, return_to_hub
 import truck
 
 
@@ -34,14 +34,17 @@ def start_route(car):
         print('current mileage is ', car.get_mileage())
         print('Delivered packages: ', car.get_delivered_packages_list())
         print('packages to be delivered:', car.get_eod_packages())
+        distance_to_hub, current_location = return_to_hub(car.get_address())
+        car.move(distance_to_hub, current_location)
 if __name__ == '__main__':
-    package_hash = create_package_table()
     truck_one = truck.Truck()
     truck_two = truck.Truck([9,5])
     truck_one_first_load = [14, 15, 16, 34, 26, 22, 24, 19, 20, 21, 1, 7, 29, 2, 33]
     truck_one.load(truck_one_first_load)
     start_route(truck_one)
-    for i in range(1, 41):
-        package = package_hash.get(i)
-        if package.get_status() != "en route" or package.get_status() != 'at hub':
-            print(package)
+    print(truck_one.total_mileage)
+    print(truck_one.get_time())
+
+    # for p_id in truck_one_first_load:
+    #     package = package_hash.get(p_id)
+    #     print(package.get_status())
