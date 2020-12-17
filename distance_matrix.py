@@ -1,8 +1,5 @@
 import csv
-from package import create_package_table, lookup
-
-package_hash = create_package_table()
-
+from package import package_hash, lookup
 
 def create_distance_table():
     distance_table_matrix = []
@@ -151,5 +148,12 @@ def return_to_hub(truck_address):
     distance_to_hub = distance_table[truck_address_index][1]
     return float(distance_to_hub), distance_table[0][0]
 
+
+def fix_address(package_id, address, city, state, zipcode):
+    """fixes any addresses in a package if wrong one is entered"""
+    package = package_hash.get(package_id)
+    package.set_address(address, city, state, zipcode)
+    print(f'Package {package_id} address corrected to {address} {city}, {state} {zipcode}')
+    print(package_hash.get(9).get_address())
 
 

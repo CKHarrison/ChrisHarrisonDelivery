@@ -2,6 +2,7 @@ import csv
 from hashtable import HashTable
 
 
+
 class Package:
     """
     Package class that stores the information of a package. Id, delivery address, weight,
