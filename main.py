@@ -52,9 +52,10 @@ if __name__ == '__main__':
     print(truck_one.total_mileage)
     print(truck_one.get_time())
 
+
     # for p_id in truck_one_first_load:
     #     package = package_hash.get(p_id)
     #     print(package.get_status())
     # package_hash.print()
     # package_hash.print_delivered_by(9, 30)
-    get_delivered_packages()
+    # get_delivered_packages()

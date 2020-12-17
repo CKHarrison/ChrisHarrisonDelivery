@@ -24,13 +24,6 @@ class Truck:
         self.speed = 18
         self.truck_address = "HUB"  # starts out initially at the wgu hub
 
-
-    # Create a method called deliver early packages
-    # takes all packages with special notes that have time to deliver before EOD
-    # plugs them in first so they are delivered, after that all other packages are delivered
-
-    # create method to get time of deliveries, this can be in the truck method or distance helper methods
-
     # create a deliver method which sets the package to delivered and sets the time they were delivered at
     def deliver_package(self, packages):
         for package_id in packages:
@@ -45,7 +38,6 @@ class Truck:
                     self.early_packages.remove(package_id)
                 else:
                     self.eod_packages.remove(package_id)
-
 
     def _add_time(self, seconds):
         """"add time to the internal clock"""""
@@ -78,6 +70,13 @@ class Truck:
 
     # load truck with packages
     def load(self, list_of_packages):
+        """loads all the packages in the truck into two separate lists, one for early delivers,
+        and the other for deliveries that are marked end of day"""
+        # set all packages delivery status to en route
+        for package_id in list_of_packages:
+            package = package_hash.get(package_id)
+            package.set_en_route()
+
         for package_id in list_of_packages:
             package = package_hash.get(package_id)
             if package.get_delivery_deadline() != "EOD":
