@@ -1,8 +1,5 @@
 from datetime import datetime, timedelta
-from package import Package, create_package_table
 from distance_matrix import package_hash
-
-
 
 
 class Truck:
@@ -95,4 +92,3 @@ class Truck:
 
     def get_mileage(self):
         return self.total_mileage
-

@@ -52,6 +52,12 @@ class HashTable:
             if item is not None:
                 print(str(item[0][0]), ':', item[0][1])
 
+    # print package status when no packages have been delivered
+    def print_status(self):
+        for item in self.table:
+            if item is not None:
+                print(f'Package: {item[0][1].get_package_id()} current status: {item[0][1].get_status()}')
+
     # print delivered packages
     def print_delivered(self):
         for item in self.table:
