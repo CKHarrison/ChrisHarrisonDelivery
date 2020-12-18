@@ -20,7 +20,7 @@ class HashTable:
 
     # add a new key,value pair to the hashtable. First check if the bucket in hashtable is empty if so put the value in
     # if not, add it to the list of values that are contained in that bucket
-    def add(self, key, value):
+    def insert(self, key, value):
         key_hash = self._create_hash(key)
         key_value = [key, value]
 
@@ -38,7 +38,7 @@ class HashTable:
             return True
 
     # Looking up a particular key and returning it, if the item in the table is None, then it is empty
-    def get(self, key):
+    def lookup(self, key):
         key_hash = self._create_hash(key)
         if self.table[key_hash] is not None:
             for item in self.table[key_hash]:

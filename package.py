@@ -104,10 +104,10 @@ def create_package_table():
             if len(row) == 9:
                 notes = row[7]
                 new_package = Package(package_id, address, city, state, zipcode, delivery_deadline, weight, notes)
-                package_hashtable.add(new_package.get_package_id(), new_package)
+                package_hashtable.insert(new_package.get_package_id(), new_package)
             else:
                 new_package = Package(package_id, address, city, state, zipcode, delivery_deadline, weight)
-                package_hashtable.add(new_package.get_package_id(), new_package)
+                package_hashtable.insert(new_package.get_package_id(), new_package)
     return package_hashtable
 
 
@@ -117,7 +117,7 @@ package_hash = create_package_table()
 
 def lookup(package_id):
     try:
-        package = package_hash.get(package_id)
+        package = package_hash.lookup(package_id)
         package_address = package.get_address()[0] + f'({package.get_address()[-1]})'
         if package_address:
             return package_address
@@ -127,7 +127,7 @@ def lookup(package_id):
 
 
 def lookup_alternate(package_id, address=None, city=None, deadline=None, zipcode=None, status=None):
-    package = package_hash.get(package_id)
+    package = package_hash.lookup(package_id)
     if address is not None:
         package_address = package.get_address()[0] + f'({package.get_address()[-1]})'
         if package_address:

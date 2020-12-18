@@ -24,7 +24,7 @@ class Truck:
     # create a deliver method which sets the package to delivered and sets the time they were delivered at
     def deliver_package(self, packages):
         for package_id in packages:
-            package = package_hash.get(package_id)
+            package = package_hash.lookup(package_id)
             # have to format package address because
             package_address = package.get_address()[0] + f'({package.get_address()[-1]})'
             if package_address == self.truck_address:
@@ -71,11 +71,11 @@ class Truck:
         and the other for deliveries that are marked end of day"""
         # set all packages delivery status to en route
         for package_id in list_of_packages:
-            package = package_hash.get(package_id)
+            package = package_hash.lookup(package_id)
             package.set_en_route()
 
         for package_id in list_of_packages:
-            package = package_hash.get(package_id)
+            package = package_hash.lookup(package_id)
             if package.get_delivery_deadline() != "EOD":
                 self.early_packages.append(package_id)
             else:

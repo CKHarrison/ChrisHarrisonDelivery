@@ -3,24 +3,15 @@ import truck
 
 
 def start_route(car):
+    """This function is in charge of creating the route each truck is going to take, first the truck will deliver
+    any packages that need to be delivered by a specific time, then will deliver the rest of the packages"""
     # if truck has early packages deliver them first
     if len(car.get_early_packages()):
         while len(car.get_early_packages()) > 0:
             # find the shortest route to package
             distance, location = find_shortest_distance_truck(car.get_early_packages(), car.get_address())
-            # print(f'next distance is {distance} and next location: {location}')
             car.move(distance, location)
-
-            # print(car.get_early_packages())
             car.deliver_package(car.get_early_packages())
-            # print('delivered packages:', car.get_delivered_packages_list())
-            # print('early packages after delivered: ', car.get_early_packages())
-            # print('Current Address: ', car.get_address())
-        # print('Current time is ', car.get_time())
-        # print('current mileage is ', car.get_mileage())
-        # print('Delivered packages: ', car.get_delivered_packages_list())
-        # print('packages to be delivered:', car.get_eod_packages())
-        # print('current address is: ', car.get_address())
 
         # deliver rest of packages
         if len(car.get_eod_packages()):
@@ -28,24 +19,14 @@ def start_route(car):
                 distance, location = find_shortest_distance_truck(car.get_eod_packages(), car.get_address())
                 car.move(distance, location)
                 car.deliver_package(car.get_eod_packages())
-        # print('Current time is ', car.get_time())
-        # print('current mileage is ', car.get_mileage())
-        # print('Delivered packages: ', car.get_delivered_packages_list())
-        # print('packages to be delivered:', car.get_eod_packages())
         distance_to_hub, current_location = return_to_hub(car.get_address())
-        # print('Returning to hub')
         car.move(distance_to_hub, current_location)
     else:
         while len(car.get_eod_packages()) > 0:
             distance, location = find_shortest_distance_truck(car.get_eod_packages(), car.get_address())
             car.move(distance, location)
             car.deliver_package(car.get_eod_packages())
-    # print('Current time is ', car.get_time())
-    # print('current mileage is ', car.get_mileage())
-    # print('Delivered packages: ', car.get_delivered_packages_list())
-    # print('packages to be delivered:', car.get_eod_packages())
     distance_to_hub, current_location = return_to_hub(car.get_address())
-    # print('Returning to hub')
     car.move(distance_to_hub, current_location)
 
 
@@ -70,7 +51,7 @@ def get_delivered_packages():
 
 def correct_address(package_id, address, city, state, zipcode):
     """corrects an incorrect address for any package passed through to a new address"""
-    package = package_hash.get(package_id)
+    package = package_hash.lookup(package_id)
     package.set_address(address, city, state, zipcode)
     print(f'Package {package_id} address corrected to {address} {city}, {state} {zipcode}')
 
