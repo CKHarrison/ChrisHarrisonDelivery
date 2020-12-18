@@ -68,7 +68,9 @@ class HashTable:
     # add print delivered by certain time?
     def print_delivered_by(self, hour, minutes):
         time_entered = datetime(datetime.now().year, datetime.now().month, datetime.now().day, hour=hour, minute= minutes)
+        info_string = []
         for item in self.table:
             if item is not None:
                 if item[0][1].get_time_delivered() is not None and item[0][1].get_time_delivered() < time_entered:
-                    print(f'package {item[0][1].get_package_id()} delivered at: {item[0][1].get_time_delivered()}')
+                    info_string.append(f'package {item[0][1].get_package_id()} delivered at: {item[0][1].get_time_delivered()}')
+        return info_string

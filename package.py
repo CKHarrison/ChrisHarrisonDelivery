@@ -2,7 +2,6 @@ import csv
 from hashtable import HashTable
 
 
-
 class Package:
     """
     Package class that stores the information of a package. Id, delivery address, weight,
@@ -125,3 +124,20 @@ def lookup(package_id):
     except:
         # if address is not found return None
         return None
+
+
+def lookup_alternate(package_id, address=None, city=None, deadline=None, zipcode=None, status=None):
+    package = package_hash.get(package_id)
+    if address is not None:
+        package_address = package.get_address()[0] + f'({package.get_address()[-1]})'
+        if package_address:
+            return package_address
+    if city is not None:
+        return package.get_address()[1]
+    if deadline is not None:
+        return package.get_delivery_deadline()
+    if zipcode is not None:
+        return package.get_address()[-1]
+    if status is not None:
+        return package.get_status()
+

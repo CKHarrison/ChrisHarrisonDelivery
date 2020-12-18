@@ -29,7 +29,7 @@ class Truck:
             package_address = package.get_address()[0] + f'({package.get_address()[-1]})'
             if package_address == self.truck_address:
                 package.set_delivered(self.clock)
-                print(f'package {package.get_package_id()} delivered at: {package.get_status()}')
+                # print(f'package {package.get_package_id()} delivered at: {package.get_status()}')
                 self.delivered_packages_list.append(package_id)
                 if package_id in self.early_packages:
                     self.early_packages.remove(package_id)
