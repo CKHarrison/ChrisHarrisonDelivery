@@ -114,8 +114,6 @@ if __name__ == '__main__':
     at_hub_packages = list(set(at_hub_packages) - set(truck_one_first_load))
     at_hub_packages_eight_am = at_hub_packages
     en_route_packages += truck_one_first_load
-    print(en_route_packages)
-    print(at_hub_packages)
 
     # get_delivered_packages()
     start_route(truck_one)
@@ -129,13 +127,11 @@ if __name__ == '__main__':
     at_hub_packages = list(set(at_hub_packages) - set(truck_two_first_load))
     at_hub_packages_nine_thirty = at_hub_packages
     en_route_packages += truck_two_first_load
-    print(en_route_packages)
-    print(at_hub_packages)
 
     start_route(truck_two)
     print('Truck_two total mileage: ', truck_two.get_mileage())
     print('Truck_two time:', truck_two.get_time())
-    print(total_mileage)
+    print('Total mileage so far: ', total_mileage)
     # correct address error
     print('Correct package #9 address error')
     correct_address(9, '410 S State St', 'Salt Lake City', 'UT', '84111')
@@ -146,21 +142,20 @@ if __name__ == '__main__':
     at_hub_packages = list(set(at_hub_packages) - set(truck_two_second_load))
     at_hub_packages_eleven_five = at_hub_packages
     en_route_packages += truck_two_second_load
-    print(en_route_packages)
-    print(at_hub_packages)
 
     start_route(truck_two)
     print('Truck_two total mileage: ', truck_two.get_mileage())
     print('Truck_two time:', truck_two.get_time())
     total_mileage += truck_two.get_mileage()
-    print(total_mileage)
+    print('Total mileage for the day: ', total_mileage)
     #
     # while loop to let user see when packages have been delivered
     while True:
         response = input('Would you like to:\n1) check what packages have been delivered at what time?\n2) Inquire '
                          'about a specific package? \n3) Check when all packages were delivered?\nPress 4 to quit\n')
         if response == '4':
-            print('Have a nice day, logging you out')
+            print('Have a nice day, logging you out...')
+            print('Logged out')
             break
         elif response == '1':
             get_delivered_packages()

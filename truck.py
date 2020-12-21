@@ -45,17 +45,25 @@ class Truck:
                               hour=10, minute=00)
         ten_five = datetime(datetime.now().year, datetime.now().month, datetime.now().day,
                               hour=10, minute=8)
+        twelve_thirty = datetime(datetime.now().year, datetime.now().month, datetime.now().day,
+                              hour=12, minute=30)
+        twelve_thirty_two = datetime(datetime.now().year, datetime.now().month, datetime.now().day,
+                              hour=12, minute=32)
 
         if nine_am <= self.get_time() <= nine_one:
             print(f'******** printing package status at {self.get_time()} ********')
             package_hash.print_status()
             print(f'******** end package status ********')
 
-            if ten_am <= self.get_time() <= ten_five:
-                print(f'******** printing package status at {self.get_time()} ********')
-                package_hash.print_status()
-                print(f'******** end package status ********')
+        if ten_am <= self.get_time() <= ten_five:
+            print(f'******** printing package status at {self.get_time()} ********')
+            package_hash.print_status()
+            print(f'******** end package status ********')
 
+        if twelve_thirty <= self.get_time() <= twelve_thirty_two:
+            print(f'******** printing package status at {self.get_time()} ********')
+            package_hash.print_status()
+            print(f'******** end package status ********')
 
     def _add_time(self, seconds):
         """"add time to the internal clock"""""
