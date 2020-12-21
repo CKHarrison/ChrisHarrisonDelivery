@@ -90,6 +90,7 @@ def create_package_table():
     The purpose of this function is to compartmentalize the creation of the table,
     allowing for use in the main program
     without needing to delve behind the scenes.
+    This function is O(N) runtime complexity
     """
     # package_hashtable will store all of the packages
     package_hashtable = HashTable()

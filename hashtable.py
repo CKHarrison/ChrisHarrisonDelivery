@@ -59,11 +59,11 @@ class HashTable:
                 print(f'Package: {item[0][1].get_package_id()} current status: {item[0][1].get_status()}')
 
     # print delivered packages
-    def print_delivered(self):
-        for item in self.table:
-            if item is not None:
-                if item[0][1].get_time_delivered() is not None:
-                    print(f'package {item[0][1].get_package_id()} delivered at: {item[0][1].get_time_delivered()}')
+    # def print_delivered(self):
+    #     for item in self.table:
+    #         if item is not None:
+    #             if item[0][1].get_time_delivered() is not None:
+    #                 print(f'package {item[0][1].get_package_id()} delivered at: {item[0][1].get_time_delivered()}')
 
     # add print delivered by certain time?
     def print_delivered_by(self, hour, minutes):

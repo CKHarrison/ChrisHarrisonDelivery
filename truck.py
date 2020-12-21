@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from distance_matrix import package_hash
 
 
+
 class Truck:
     # import date time library and use the time delta operation
     # class variable that holds the clock time
@@ -35,6 +36,26 @@ class Truck:
                     self.early_packages.remove(package_id)
                 else:
                     self.eod_packages.remove(package_id)
+
+        nine_am = datetime(datetime.now().year, datetime.now().month, datetime.now().day,
+                              hour=9, minute=00)
+        nine_one = datetime(datetime.now().year, datetime.now().month, datetime.now().day,
+                               hour=9, minute=1)
+        ten_am = datetime(datetime.now().year, datetime.now().month, datetime.now().day,
+                              hour=10, minute=00)
+        ten_five = datetime(datetime.now().year, datetime.now().month, datetime.now().day,
+                              hour=10, minute=8)
+
+        if nine_am <= self.get_time() <= nine_one:
+            print(f'******** printing package status at {self.get_time()} ********')
+            package_hash.print_status()
+            print(f'******** end package status ********')
+
+            if ten_am <= self.get_time() <= ten_five:
+                print(f'******** printing package status at {self.get_time()} ********')
+                package_hash.print_status()
+                print(f'******** end package status ********')
+
 
     def _add_time(self, seconds):
         """"add time to the internal clock"""""
@@ -92,3 +113,12 @@ class Truck:
 
     def get_mileage(self):
         return self.total_mileage
+
+    def compare_time(self, first_hour, first_minute, second_hour, second_minute):
+        first_time = datetime(datetime.now().year, datetime.now().month, datetime.now().day,
+                              hour=first_hour, minute=first_minute)
+        second_time = datetime(datetime.now().year, datetime.now().month, datetime.now().day,
+                               hour=second_hour, minute=second_minute)
+
+        if first_time >= self.get_time() <= second_time:
+            return True

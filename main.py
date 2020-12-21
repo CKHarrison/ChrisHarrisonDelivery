@@ -1,4 +1,5 @@
 from distance_matrix import find_shortest_distance_truck, package_hash, return_to_hub
+from datetime import datetime
 import truck
 
 
@@ -12,6 +13,7 @@ def start_route(car):
             distance, location = find_shortest_distance_truck(car.get_early_packages(), car.get_address())
             car.move(distance, location)
             car.deliver_package(car.get_early_packages())
+            # show package status between 8:50 and 9AM
 
         # deliver rest of packages
         if len(car.get_eod_packages()):
@@ -19,13 +21,24 @@ def start_route(car):
                 distance, location = find_shortest_distance_truck(car.get_eod_packages(), car.get_address())
                 car.move(distance, location)
                 car.deliver_package(car.get_eod_packages())
+                # show package status between 8:50 and 9AM
+                # if car.compare_time(8, 50, 8, 55):
+                #     print(f'Printing package statuses at {car.get_time()}')
+                #     package_hash.print_status()
+                # elif car.compare_time(9, 40, 9, 55):
+                #     print(f'Printing package statuses at {car.get_time()}')
+                #     package_hash.print_status()
+
         distance_to_hub, current_location = return_to_hub(car.get_address())
         car.move(distance_to_hub, current_location)
+        # show package status between 8:50 and 9AM
+
     else:
         while len(car.get_eod_packages()) > 0:
             distance, location = find_shortest_distance_truck(car.get_eod_packages(), car.get_address())
             car.move(distance, location)
             car.deliver_package(car.get_eod_packages())
+            # show package status between 8:50 and 9AM
     distance_to_hub, current_location = return_to_hub(car.get_address())
     car.move(distance_to_hub, current_location)
 
@@ -53,8 +66,7 @@ def get_delivered_packages():
         for row in time_list:
             print(row)
     else:
-        print('No packages have been delivered yet. Current status of packages: ')
-        package_hash.print_status()
+        print('No packages have been delivered yet. All packages are either in route or at the hub')
 
 
 def get_package_status():
@@ -65,9 +77,20 @@ def get_package_status():
     if package_id < 0 or package_id > 40:
         package_id = int(input('Only enter ranges between 1-40: '))
 
-    hour, time = get_user_time()
+    hour, minute = get_user_time()
+    user_time = datetime(datetime.now().year, datetime.now().month, datetime.now().day, hour=hour, minute=minute)
+    eight_am = datetime(datetime.now().year, datetime.now().month, datetime.now().day, hour=8)
     package = package_hash.lookup(package_id)
-    print(f'Package {package.get_package_id()} status - {package.get_status()}')
+    # compare time delivered with user time and see if the package was delivered before or after user time
+    # if delivered before, figure out whether it was in the truck or at the hub
+    if user_time < eight_am:
+        print('Package is at hub')
+    elif package.get_time_delivered() < user_time:
+        print(f'Package {package.get_package_id()} status - {package.get_status()}')
+    elif package_id in at_hub_packages_eight_am or at_hub_packages_nine_thirty or at_hub_packages_eleven_five:
+        print('package is at hub')
+    else:
+        print('Package is en route')
 
 
 def correct_address(package_id, address, city, state, zipcode):
@@ -78,16 +101,22 @@ def correct_address(package_id, address, city, state, zipcode):
 
 
 if __name__ == '__main__':
-    print('Package status at 7:00AM')
-    package_hash.print_status()
     total_mileage = 0
     truck_one = truck.Truck()
     truck_two = truck.Truck([9, 5])
 
+    #en_route_packages
+    at_hub_packages = list(range(1, 40))
+    en_route_packages = []
     truck_one_first_load = [14, 15, 16, 34, 26, 22, 24, 19, 20, 21, 1, 7, 29, 2, 33]
     truck_one.load(truck_one_first_load)
-    print('Package status at 8:00AM')
-    package_hash.print_status()
+    # updating at hub packages and en route package list
+    at_hub_packages = list(set(at_hub_packages) - set(truck_one_first_load))
+    at_hub_packages_eight_am = at_hub_packages
+    en_route_packages += truck_one_first_load
+    print(en_route_packages)
+    print(at_hub_packages)
+
     # get_delivered_packages()
     start_route(truck_one)
     total_mileage += truck_one.get_mileage()
@@ -96,8 +125,13 @@ if __name__ == '__main__':
 
     truck_two_first_load = [31, 32, 25, 6, 36, 13, 39, 27, 35, 3, 8, 30, 5, 37, 38, 40]
     truck_two.load(truck_two_first_load)
-    print('Package status at 9:05AM')
-    package_hash.print_status()
+    # update enroute packages and at hub packages
+    at_hub_packages = list(set(at_hub_packages) - set(truck_two_first_load))
+    at_hub_packages_nine_thirty = at_hub_packages
+    en_route_packages += truck_two_first_load
+    print(en_route_packages)
+    print(at_hub_packages)
+
     start_route(truck_two)
     print('Truck_two total mileage: ', truck_two.get_mileage())
     print('Truck_two time:', truck_two.get_time())
@@ -108,22 +142,31 @@ if __name__ == '__main__':
     # get_delivered_packages()
     truck_two_second_load = [9, 10, 28, 18, 23, 11, 12, 4, 17]
     truck_two.load(truck_two_second_load)
+    # update en route and at hub package list
+    at_hub_packages = list(set(at_hub_packages) - set(truck_two_second_load))
+    at_hub_packages_eleven_five = at_hub_packages
+    en_route_packages += truck_two_second_load
+    print(en_route_packages)
+    print(at_hub_packages)
+
     start_route(truck_two)
     print('Truck_two total mileage: ', truck_two.get_mileage())
     print('Truck_two time:', truck_two.get_time())
     total_mileage += truck_two.get_mileage()
     print(total_mileage)
-
+    #
     # while loop to let user see when packages have been delivered
     while True:
-        response = input('Would you like to 1) check when packages have been delivered?  2) Inquire about a specific '
-                         'package? Press 3 to quit\n')
-        if response == '3':
+        response = input('Would you like to:\n1) check what packages have been delivered at what time?\n2) Inquire '
+                         'about a specific package? \n3) Check when all packages were delivered?\nPress 4 to quit\n')
+        if response == '4':
             print('Have a nice day, logging you out')
             break
         elif response == '1':
             get_delivered_packages()
         elif response == '2':
             get_package_status()
+        elif response == '3':
+            package_hash.print_status()
         else:
             'Please enter a valid response, 1, 2, or 3'
