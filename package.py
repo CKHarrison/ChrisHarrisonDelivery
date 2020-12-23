@@ -5,7 +5,7 @@ from hashtable import HashTable
 class Package:
     """
     Package class that stores the information of a package. Id, delivery address, weight,
-     delivery time and any special notes which default to an empty string if there are none
+     delivery time and any special notes which default to an empty string if there are none.
     """
 
     def __init__(self, package_id, address, city, state, zipcode, delivery_deadline,

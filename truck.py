@@ -2,12 +2,12 @@ from datetime import datetime, timedelta
 from distance_matrix import package_hash
 
 
-
 class Truck:
-    # import date time library and use the time delta operation
-    # class variable that holds the clock time
-    # each truck has their own time update that status based on the distance travelled
-    def __init__(self, clock=None):
+    """Truck class that is responsible for grabbing the packages from the hub and delivering them across town
+     Each truck has its own time that it keeps track of, and each truck has its list of packages, separated into two
+     lists early deliveries and end of day deliveries."""
+
+    def __init__(self, name, clock=None):
         if clock is None:
             # set clock time to be initialized to 8:00 AM
             self.clock = datetime(datetime.now().year, datetime.now().month, datetime.now().day, 8)
@@ -21,34 +21,40 @@ class Truck:
         self.total_mileage = 0
         self.speed = 18
         self.truck_address = "HUB"  # starts out initially at the wgu hub
+        self.name = name
 
     # create a deliver method which sets the package to delivered and sets the time they were delivered at
     def deliver_package(self, packages):
+        """This function looks through the list of packages, gets the id of that package, and if the package matches
+           the current address of the truck, it marks it as delivered, and removes that package from the list of
+           packages the truck is carrying. This operates in Big O(N) time, as it only loops through the list of packages
+           the truck is carrying"""
         for package_id in packages:
             package = package_hash.lookup(package_id)
             # have to format package address because
             package_address = package.get_address()[0] + f'({package.get_address()[-1]})'
             if package_address == self.truck_address:
                 package.set_delivered(self.clock)
-                # print(f'package {package.get_package_id()} delivered at: {package.get_status()}')
                 self.delivered_packages_list.append(package_id)
                 if package_id in self.early_packages:
                     self.early_packages.remove(package_id)
                 else:
                     self.eod_packages.remove(package_id)
 
+        # this last chunk of code is responsible for showing the packages status at various points in the day as per
+        # section G of the rubric. Shows the full list at 9AM 10:07AM and 12:30PM
         nine_am = datetime(datetime.now().year, datetime.now().month, datetime.now().day,
-                              hour=9, minute=00)
+                           hour=9, minute=00)
         nine_one = datetime(datetime.now().year, datetime.now().month, datetime.now().day,
-                               hour=9, minute=1)
+                            hour=9, minute=1)
         ten_am = datetime(datetime.now().year, datetime.now().month, datetime.now().day,
-                              hour=10, minute=00)
+                          hour=10, minute=00)
         ten_five = datetime(datetime.now().year, datetime.now().month, datetime.now().day,
-                              hour=10, minute=8)
+                            hour=10, minute=8)
         twelve_thirty = datetime(datetime.now().year, datetime.now().month, datetime.now().day,
-                              hour=12, minute=30)
+                                 hour=12, minute=30)
         twelve_thirty_two = datetime(datetime.now().year, datetime.now().month, datetime.now().day,
-                              hour=12, minute=32)
+                                     hour=12, minute=32)
 
         if nine_am <= self.get_time() <= nine_one:
             print(f'******** printing package status at {self.get_time()} ********')
@@ -71,7 +77,7 @@ class Truck:
 
     def calculate_time(self, distance):
         """this function calculates the amount of time it takes for the truck to reach its destination
-        then adds that time to the truck clock"""
+        then adds that time to the truck clock, Big O(1) runtime"""
         # calculate the speed in seconds .005 miles per second
         speed_in_seconds = 18 / 3600
         amount_of_seconds = distance / speed_in_seconds
@@ -97,7 +103,7 @@ class Truck:
     # load truck with packages
     def load(self, list_of_packages):
         """loads all the packages in the truck into two separate lists, one for early delivers,
-        and the other for deliveries that are marked end of day"""
+        and the other for deliveries that are marked end of day. Big O(N) runtime complexity"""
         # set all packages delivery status to en route
         for package_id in list_of_packages:
             package = package_hash.lookup(package_id)
@@ -123,6 +129,7 @@ class Truck:
         return self.total_mileage
 
     def compare_time(self, first_hour, first_minute, second_hour, second_minute):
+        """Check to see if a certain time is between user set times. Big O(1) runtime"""
         first_time = datetime(datetime.now().year, datetime.now().month, datetime.now().day,
                               hour=first_hour, minute=first_minute)
         second_time = datetime(datetime.now().year, datetime.now().month, datetime.now().day,

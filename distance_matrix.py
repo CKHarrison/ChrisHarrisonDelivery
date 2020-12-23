@@ -3,6 +3,9 @@ from package import package_hash, lookup
 
 
 def create_distance_table():
+    """This function creates a 2-Dimensional array that holds all of the distance data needed for the program
+       its space complexity is Big O(N^2) as it is an N X N matrix. The Runtime complexity is Big O(N), as it just reads
+       the file line by line, for N lines."""
     distance_table_matrix = []
 
     with open('distance_table.csv', encoding='utf-8-sig', newline='') as csv_file:

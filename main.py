@@ -1,3 +1,4 @@
+# C950 Delivery Project by Christopher Harrison ID# 000900443
 from distance_matrix import find_shortest_distance_truck, package_hash, return_to_hub
 from datetime import datetime
 import truck
@@ -5,7 +6,9 @@ import truck
 
 def start_route(car):
     """This function is in charge of creating the route each truck is going to take, first the truck will deliver
-    any packages that need to be delivered by a specific time, then will deliver the rest of the packages"""
+    any packages that need to be delivered by a specific time, then will deliver the rest of the packages
+    Has Big O(N^3) runtime complexity"""
+    print(f'{car.name} starting route at {car.get_time()}')
     # if truck has early packages deliver them first
     if len(car.get_early_packages()):
         while len(car.get_early_packages()) > 0:
@@ -21,17 +24,9 @@ def start_route(car):
                 distance, location = find_shortest_distance_truck(car.get_eod_packages(), car.get_address())
                 car.move(distance, location)
                 car.deliver_package(car.get_eod_packages())
-                # show package status between 8:50 and 9AM
-                # if car.compare_time(8, 50, 8, 55):
-                #     print(f'Printing package statuses at {car.get_time()}')
-                #     package_hash.print_status()
-                # elif car.compare_time(9, 40, 9, 55):
-                #     print(f'Printing package statuses at {car.get_time()}')
-                #     package_hash.print_status()
 
         distance_to_hub, current_location = return_to_hub(car.get_address())
         car.move(distance_to_hub, current_location)
-        # show package status between 8:50 and 9AM
 
     else:
         while len(car.get_eod_packages()) > 0:
@@ -41,6 +36,7 @@ def start_route(car):
             # show package status between 8:50 and 9AM
     distance_to_hub, current_location = return_to_hub(car.get_address())
     car.move(distance_to_hub, current_location)
+    print(f'{car.name} returning to hub')
 
 
 def get_user_time():
@@ -102,10 +98,10 @@ def correct_address(package_id, address, city, state, zipcode):
 
 if __name__ == '__main__':
     total_mileage = 0
-    truck_one = truck.Truck()
-    truck_two = truck.Truck([9, 5])
+    truck_one = truck.Truck('Truck One')
+    truck_two = truck.Truck('Truck Two', [9, 5])
 
-    #en_route_packages
+    # en_route_packages
     at_hub_packages = list(range(1, 40))
     en_route_packages = []
     truck_one_first_load = [14, 15, 16, 34, 26, 22, 24, 19, 20, 21, 1, 7, 29, 2, 33]
@@ -148,7 +144,6 @@ if __name__ == '__main__':
     print('Truck_two time:', truck_two.get_time())
     total_mileage += truck_two.get_mileage()
     print('Total mileage for the day: ', total_mileage)
-    #
     # while loop to let user see when packages have been delivered
     while True:
         response = input('Would you like to:\n1) check what packages have been delivered at what time?\n2) Inquire '

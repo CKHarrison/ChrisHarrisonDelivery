@@ -1,4 +1,5 @@
 from datetime import datetime
+
 """
 Hashtable module to store the package data and distance data. Comes with the ability
 to insert, search, and remove items from the hashtable.
@@ -6,7 +7,10 @@ to insert, search, and remove items from the hashtable.
 
 
 class HashTable:
-    """HashTable data structure for holding package and distance information"""
+    """HashTable data structure for holding package and distance information
+       The hashtable has an Big O(N) space complexity, as the number of packages it holds directly correlates to the
+       amount of space it takes up. The hashtable has an average runtime of Big O(1) lookup and insertion with a worst
+        case runtime of O(N)"""
 
     # Sets up the initial size of the hashTable and sets it to a list with None which represents empty buckets
     def __init__(self):
@@ -20,6 +24,7 @@ class HashTable:
 
     # add a new key,value pair to the hashtable. First check if the bucket in hashtable is empty if so put the value in
     # if not, add it to the list of values that are contained in that bucket
+    # O(1) average case runtime O(N) worst case
     def insert(self, key, value):
         key_hash = self._create_hash(key)
         key_value = [key, value]
@@ -38,6 +43,7 @@ class HashTable:
             return True
 
     # Looking up a particular key and returning it, if the item in the table is None, then it is empty
+    # O(1) average case runtime O(N) worst case
     def lookup(self, key):
         key_hash = self._create_hash(key)
         if self.table[key_hash] is not None:
@@ -58,19 +64,14 @@ class HashTable:
             if item is not None:
                 print(f'Package: {item[0][1].get_package_id()} current status: {item[0][1].get_status()}')
 
-    # print delivered packages
-    # def print_delivered(self):
-    #     for item in self.table:
-    #         if item is not None:
-    #             if item[0][1].get_time_delivered() is not None:
-    #                 print(f'package {item[0][1].get_package_id()} delivered at: {item[0][1].get_time_delivered()}')
-
     # add print delivered by certain time?
     def print_delivered_by(self, hour, minutes):
-        time_entered = datetime(datetime.now().year, datetime.now().month, datetime.now().day, hour=hour, minute= minutes)
+        time_entered = datetime(datetime.now().year, datetime.now().month, datetime.now().day, hour=hour,
+                                minute=minutes)
         info_string = []
         for item in self.table:
             if item is not None:
                 if item[0][1].get_time_delivered() is not None and item[0][1].get_time_delivered() < time_entered:
-                    info_string.append(f'package {item[0][1].get_package_id()} delivered at: {item[0][1].get_time_delivered()}')
+                    info_string.append(
+                        f'package {item[0][1].get_package_id()} delivered at: {item[0][1].get_time_delivered()}')
         return info_string
