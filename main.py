@@ -154,7 +154,7 @@ if __name__ == '__main__':
     # while loop to let user see when packages have been delivered
     while True:
         response = input("Would you like to:\n1) check what packages have been delivered at what time?\n2) Inquire "
-                         "about a specific package? \n3) Check when all packages were delivered?\n4) See both "
+                         "about a specific package? \n3) Check when all packages were delivered?\n4) See each "
                          "truck's mileage, along with the total mileage for the day.\nPress 5 to quit\n")
         if response == '5':
             print('Have a nice day, logging you out...')
