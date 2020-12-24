@@ -45,9 +45,15 @@ def get_user_time():
     try:
         hour = int(input('Please enter hour, in form of 24 hour clock. i.e 9am is 09, 10pm is 22: '))
     except ValueError as e:
-        print('Please only enter the hour you wish to see')
+        print('Please only enter the hour you wish to see as integer')
         hour = int(input('Please enter hour, in form of 24 hour clock. i.e 9am is 09, 10pm is 22: '))
-    minutes = int(input('Please enter minutes from 0 - 60:'))
+    if hour < 0 or hour > 24:
+        hour = int(input('Please enter hour, in form of 24 hour clock. i.e 9am is 09, 10pm is 22: '))
+    try:
+        minutes = int(input('Please enter minutes from 0 - 60:'))
+    except ValueError as e:
+        print('Please only enter the hour you wish to see as integer')
+        minutes = int(input('Please enter minutes from 0 - 60:'))
     if minutes < 00 or minutes > 60:
         minutes = int(input('Please enter minutes from 0 - 60'))
     return hour, minutes
@@ -100,6 +106,7 @@ if __name__ == '__main__':
     total_mileage = 0
     truck_one = truck.Truck('Truck One')
     truck_two = truck.Truck('Truck Two', [9, 5])
+    truck_three = truck.Truck('Truck Three')
 
     # en_route_packages
     at_hub_packages = list(range(1, 40))
@@ -146,17 +153,27 @@ if __name__ == '__main__':
     print('Total mileage for the day: ', total_mileage)
     # while loop to let user see when packages have been delivered
     while True:
-        response = input('Would you like to:\n1) check what packages have been delivered at what time?\n2) Inquire '
-                         'about a specific package? \n3) Check when all packages were delivered?\nPress 4 to quit\n')
-        if response == '4':
+        response = input("Would you like to:\n1) check what packages have been delivered at what time?\n2) Inquire "
+                         "about a specific package? \n3) Check when all packages were delivered?\n4) See both "
+                         "truck's mileage, along with the total mileage for the day.\nPress 5 to quit\n")
+        if response == '5':
             print('Have a nice day, logging you out...')
             print('Logged out')
             break
         elif response == '1':
             get_delivered_packages()
+            print('*' * 16)
         elif response == '2':
             get_package_status()
+            print('*' * 16)
         elif response == '3':
             package_hash.print_status()
+            print('*' * 16)
+        elif response == '4':
+            print(f"Truck One's mileage for the day: {truck_one.get_mileage()} miles traveled")
+            print(f"Truck Two's mileage for the day: {truck_two.get_mileage()} miles traveled")
+            print(f"Truck Three's mileage for the day: {truck_three.get_mileage()} miles traveled")
+            print(f"Total mileage for the day: {total_mileage}")
+            print('*' * 16)
         else:
             'Please enter a valid response, 1, 2, or 3'
