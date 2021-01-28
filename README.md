@@ -1,4 +1,4 @@
-#DeliveryProject Readme
+# DeliveryProject ReadMe
 This was the final project deliverable for my Data Structures and Algorithms 2 class 
 at Western Governors University Computer Science Major.
 
@@ -27,15 +27,15 @@ difference in efficiency would be. Regardless, I would like to get it below O(N<
 
 If  you have any questions or comments please let me know, I'd love to hear from you!
 
-###Screenshots And Installation Instructions
+### Screenshots And Installation Instructions
 If you want to check out the project for yourself, all you need to do is clone this repo, open it up and run it. 
 The menu is command-line based and will show you the mileage of each truck, when items are delivered and also offers an 
 interactive menu if you want to query individual results, see the status of each package at a certain time, or see when 
 all packages were delivered.
 
-####Menu Options
+#### Menu Options
 ![Menu options](images/Menu%20Options.png)
-####Delivery Status for all packages
+#### Delivery Status for all packages
 ![Delivery status for all packages](images/all%20delivered%20packages.png)
-####Package Status At 10:07PM
+#### Package Status At 10:07PM
 ![Package status 10:07PM](images/ten_oh_seven%20status.png)
