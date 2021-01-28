@@ -31,7 +31,9 @@ If  you have any questions or comments please let me know, I'd love to hear from
 If you want to check out the project for yourself, all you need to do is clone this repo, open it up and run it. 
 The menu is command-line based and will show you the mileage of each truck, when items are delivered and also offers an 
 interactive menu if you want to query individual results, see the status of each package at a certain time, or see when 
-all packages were delivered.
+all packages were delivered. Linked below is a demo on YouTube and screenshots of the command line interface.
+
+[Link to YouTube Demo](https://youtu.be/-5GINpEQm7o)
 
 ####Menu Options
 ![Menu options](images/Menu%20Options.png)

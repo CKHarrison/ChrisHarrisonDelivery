@@ -1,4 +1,3 @@
-# C950 Delivery Project by Christopher Harrison ID# 000900443
 from distance_matrix import find_shortest_distance_truck, package_hash, return_to_hub
 from datetime import datetime
 import truck
